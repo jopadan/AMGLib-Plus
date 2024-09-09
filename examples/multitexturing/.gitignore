@@ -1,0 +1,10 @@
+cmake_install.cmake
+install_manifest.txt
+CMakeFiles/
+CMakeFiles/*
+CMakeCache.txt
+Makefile
+*.elf
+*.PBP
+*.SFO
+screenshot.png

@@ -18,6 +18,10 @@ Features
 
 # References
 
-- [@andresmargar](https://sourceforge.net/u/andresmargar/profile/)'s [AMGLib-Plus SourceForge.net](https://sourceforge.net/projects/amglibplus/)
+- [AMGLib-Plus SourceForge.net](https://sourceforge.net/projects/amglibplus/)
 - [lodepng](https://github.com/lvandeve/lodepng)
 - [libbulletml](https://github.com/pspdev/psp-packages)
+
+# Authors
+
+🄯 [Andrés Margar](https://sourceforge.net/u/andresmargar/profile/) [\<andresbetis98@hotmail.com\>](mailto:andresbetis98@hotmail.com)

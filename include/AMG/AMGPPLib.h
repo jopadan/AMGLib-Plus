@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <ctime>
 #include <psprtc.h>
+#include <algorithm>
 
 namespace amg
 {
@@ -96,7 +97,16 @@ namespace amg
 	namespace mat
 	{
 		template<scalar T, size_t COLS, size_t ROWS>
-		using type = std::conditional_t<COLS == 1, vec::type<T, ROWS>, vec::type<T, ROWS>[COLS]>;
+		struct type : std::array<vec::type<T, ROWS>, COLS>
+		{
+			type(std::initializer_list<T[ROWS]> src)
+			{
+				auto iter = src.begin();
+				for(size_t cols = 0; cols < COLS; ++cols)
+					(*this)[cols] = *reinterpret_cast<const vec::type<T, ROWS>*>(iter++);
+			}
+			operator T*() { return &(*this)[0][0]; }
+		};
 
 		template<size_t COLS, size_t ROWS>
 		using u64 = type<u64, COLS, ROWS>;

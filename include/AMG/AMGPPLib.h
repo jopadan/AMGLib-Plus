@@ -8,6 +8,7 @@
 #include <ctime>
 #include <psprtc.h>
 #include <algorithm>
+#include <numeric>
 
 namespace amg
 {
@@ -92,7 +93,40 @@ namespace amg
 
 		template<size_t N = 1>
 		using f32 = type<f32, N>;
-	};
+
+                template<scalar T, size_t N>
+                inline T dot(type<T,N> a, type<T,N> b) { return std::accumulate(a * b); }
+		template<scalar T, size_t N>
+                inline T dot_div(type<T,N> a, type<T,N> b) { return std::accumulate(a / b); }
+
+                template<scalar T, size_t N = 2, size_t M = N>
+                inline type<T, N> neg2(type<T, M> src, uint8_t mod = 2, uint8_t val = 0)
+                {
+                        type<T, N> dst;
+                        dst[0] = (0 % mod == val) ? -src[0] : src[0];
+                        dst[1] = (1 % mod == val) ? -src[1] : src[1];
+                        return dst;
+                }
+                template<scalar T, size_t N = 2, size_t M = N>
+                inline type<T,N> swp2(type<T, M> src)
+                {
+                        type<T,N> dst;
+                        dst[0] = src[1];
+                        dst[1] = src[0];
+                        return dst;
+                }
+
+                template<scalar T, size_t N> requires (N >= 2)
+                inline type<T,N> cross2(type<T,N> src, unsigned int winding = GU_CCW) { return neg2<T,N,2>({1,1}, 2, 1 - (winding % 2)) * swp2<T,N,N>(src); }
+
+                template<scalar T, size_t N> requires (N >= 3)
+                inline type<T,N> cross3(type<T,N> a, type<T,N> b) { return (a.rot3l(1) * b - a * b.rot3l(1)).rot3l(1); }
+
+		template<scalar T, size_t N> requires (N >= 4)
+		inline type<T,N> cross4(type<T,N> a, type<T,N> b, type<T, N> c)
+		{
+		}
+        };
 
 	namespace mat
 	{
@@ -102,10 +136,81 @@ namespace amg
 			type(std::initializer_list<T[ROWS]> src)
 			{
 				auto iter = src.begin();
-				for(size_t cols = 0; cols < COLS; ++cols)
+				for(size_t cols = 0; (cols < COLS) && (iter != src.end()); ++cols)
 					(*this)[cols] = *reinterpret_cast<const vec::type<T, ROWS>*>(iter++);
 			}
 			operator T*() { return &(*this)[0][0]; }
+			vec::type<T, ROWS>& column(size_t i) { return (*this)[i % COLS]; }
+                        vec::type<T, COLS>  row(size_t i) { vec::type<T, COLS> dst; for(size_t j = 0; j < COLS; j++) dst[j] = (*this)[j][i % ROWS];  }
+                        /* matrix/scalar operators */
+                        type<T, COLS, ROWS>& operator+=(const T s)
+                        {
+                                for(size_t i = 0; i < COLS; i++)
+                                        (*this)[i] += s;
+				return *this;
+                        }
+                        type<T, COLS, ROWS>& operator-=(const T s)
+                        {
+                                for(size_t i = 0; i < COLS; i++)
+                                        (*this)[i] -= s;
+				return *this;
+                        }
+                        type<T, COLS, ROWS>& operator*=(const T s)
+                        {
+                                for(size_t i = 0; i < COLS; i++)
+                                        (*this)[i] *= s;
+				return *this;
+                        }
+                        type<T, COLS, ROWS>& operator/=(const T s)
+                        {
+                                for(size_t i = 0; i < COLS; i++)
+                                        (*this)[i] /= s;
+				return *this;
+                        }
+                        /* matrix/vector operators */
+                        vec::type<T, COLS> operator*(const vec::type<T, ROWS> v)
+                        {
+                                vec::type<T, COLS> dst;
+                                for(size_t i = 0; i < COLS; i++)
+                                        dst[i] = row(i) * v;
+                                return dst;
+                        }
+                        vec::type<T, COLS> operator/(const vec::type<T, ROWS> v)
+                        {
+                                vec::type<T, COLS> dst;
+                                for(size_t i = 0; i < COLS; i++)
+                                        dst[i] = row(i) / v;
+                                return dst;
+                        }
+                        /* matrix/matrix operator */
+                        type<T, COLS, ROWS> operator+(const type<T, COLS, ROWS> rhs)
+                        {
+                                type<T, COLS, ROWS> dst;
+                                for(size_t i = 0; i < COLS; i++)
+                                        dst = (*this)[i] + rhs[i];
+                        }
+                        type<T, COLS, ROWS> operator-(const type<T, COLS, ROWS> rhs)
+                        {
+                                type<T, COLS, ROWS> dst;
+                                for(size_t i = 0; i < COLS; i++)
+                                        dst = (*this)[i] - rhs[i];
+                        }
+                        type<T, COLS, ROWS> operator*(const type<T, COLS, ROWS> rhs)
+                        {
+                                type<T, COLS, ROWS> dst;
+                                for(size_t j = 0; j < COLS; j++)
+                                        for(size_t i = 0; i < ROWS; i++)
+                                                dst[j][i] = vec::dot((*this).row(i), rhs.column(j));
+                                return dst;
+                        }
+			type<T, COLS, ROWS> operator/(const type<T, COLS, ROWS> rhs)
+			{
+				type<T, COLS, ROWS> dst;
+				for(size_t j = 0; j < COLS; j++)
+					for(size_t i =0; i < ROWS; i++)
+						dst[j][i] = vec::dot_div((*this).row(i), rhs.column(j));
+				return dst;
+			}
 		};
 
 		template<size_t COLS, size_t ROWS>

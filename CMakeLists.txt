@@ -37,8 +37,9 @@ file(GLOB_RECURSE LIB_SOURCES ${SOURCE_DIR}/*.cpp)
 target_sources(${TARGET_LIB} PRIVATE ${LIB_SOURCES})
 
 # Define preprocessor defines
-target_compile_definitions(${TARGET_LIB} PRIVATE _DEBUG PSP ${BULLET_DEFINITIONS})
+target_compile_definitions(${TARGET_LIB} PRIVATE _DEBUG PSP ${BULLET_DEFINITIONS} $<IF:$<BOOL:BUILD_OSLIB>,AMGLIB_COMPAT_OSLIB,>)
 target_include_directories(${TARGET_LIB} PUBLIC ${BULLET_INCLUDE_DIRS} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/lodepng>)
+
 # Linker flags
 target_link_libraries(${TARGET_LIB}
 	-llodepng
@@ -54,6 +55,7 @@ target_link_libraries(${TARGET_LIB}
 	-lpspsdk
 	${OSL_LIBRARIES}
 	Bullet
+	$<IF:$<BOOL:BUILD_OSLIB>,-losl,>
 )
 
 set(OSL_LIBS "-losl -lpng -lz -lpsphprm -lpspmpeg -lpspjpeg -lpspmpegbase -lpspaudiocodec")

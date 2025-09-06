@@ -30,11 +30,17 @@ make install
 
 # References
 
-- [0][AMGLib-Plus SourceForge.net](https://sourceforge.net/projects/amglibplus/)
-- [1][bullet3](https://github.com/bulletphysics/bullet3)
-- [2][OSLib](https://github.com/dogo/oslib)
-- [3][lodepng](https://github.com/lvandeve/lodepng)
-- [4][pspdev](https://github.com/pspdev/pspdev)
+- [0][AMGLib-Plus SourceForge.net]
+- [1][bullet3]
+- [2][OSLib]
+- [3][lodepng]
+- [4][pspdev]
+
+[0]: https://sourceforge.net/projects/amglibplus
+[1]: https://github.com/bulletphysics/bullet3
+[2]: https://github.com/dogo/oslib
+[3]: https://github.com/lvandeve/lodepng
+[4]: https://github.com/pspdev/pspdev
 
 # Authors
 

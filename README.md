@@ -7,7 +7,7 @@ It's a remake of an older library (AMGLib), but while recompiling and fixing its
 What are you waiting for? Download AMGLib today!! It's Open Source!!
 Features
 
-    Custom VRAM allocating system
+ <F2>   Custom VRAM allocating system
     3D and 2D graphics combined together
     2D Sprites and SFonts
     Textures: Swizzling, Alpha-Blending, Screenshots...
@@ -18,8 +18,8 @@ Features
 
 # Dependencies
 
-- [4](pspdev/pspdev)
-- [1](bulletphysics/bullet3)
+- [pspdev/pspdev][4]
+- [bulletphysics/bullet3][1]
 
 # Build
 

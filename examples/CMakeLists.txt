@@ -13,7 +13,6 @@ lights
 mode2d
 mp3player
 multitexturing
-oslib
 platform2d
 reflection
 rendertotexture
@@ -21,3 +20,7 @@ template
 utility
 amgpp_test
 )
+
+if(BUILD_OSLIB)
+	add_subdirectory(oslib)
+endif()

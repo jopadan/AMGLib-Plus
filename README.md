@@ -16,11 +16,20 @@ Features
     MultiThreading and Hardware information
     Easy to program, documentation and examples are provided
 
+# Build
+
+- Install bullet3
+
+```sh
+psp-cmake .
+make install
+```
+
 # References
 
 - [AMGLib-Plus SourceForge.net](https://sourceforge.net/projects/amglibplus/)
+- [bullet3](https://github.com/bulletphysics/bullet3)
 - [lodepng](https://github.com/lvandeve/lodepng)
-- [libbulletml](https://github.com/pspdev/psp-packages)
 
 # Authors
 

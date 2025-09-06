@@ -18,6 +18,8 @@ Features
 
 # Dependencies
 
+- [C23][6]
+- [C++23][5]
 - [pspdev/pspdev][4]
 - [bulletphysics/bullet3][1]
 
@@ -41,6 +43,8 @@ make install
 [2]: https://github.com/dogo/oslib
 [3]: https://github.com/lvandeve/lodepng
 [4]: https://github.com/pspdev/pspdev
+[5]: https://github.com/cplusplus/draft
+[6]: https://www.open-std.org/JTC1/SC22/WG14/
 
 # Authors
 

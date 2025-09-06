@@ -4,6 +4,13 @@ project(AMGLib-Plus C CXX ASM)
 include(GNUInstallDirs)
 set(CMAKE_BUILD_TYPE Release)
 
+set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_EXTENSIONS ON)
+set(CMAKE_C_STANDARD_REQUIRED)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_C_EXTENSIONS ON)
+set(CMAKE_C_STANDARD_REQUIRED)
+
 option(BUILD_OSLIB "Build AMGLib-Plus with OSLib support" OFF)
 option(BUILD_EXAMPLES "Build examples" ON)
 

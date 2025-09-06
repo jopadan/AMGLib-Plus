@@ -29,6 +29,7 @@ make install
 
 - [AMGLib-Plus SourceForge.net](https://sourceforge.net/projects/amglibplus/)
 - [bullet3](https://github.com/bulletphysics/bullet3)
+- [OSLib](https://github.com/dogo/oslib)
 - [lodepng](https://github.com/lvandeve/lodepng)
 
 # Authors
